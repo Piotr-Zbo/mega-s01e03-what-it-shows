@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="signature" content="v1.eyJzdWIiOiIxOTkxIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjAzODgsImV4cCI6MTc5MzMwNjc4OH0.Zu15NFXvoHahkFX6cj83p37BBbqxof905fOWZzqKhIA">
+    <title>#4471 · two date causes · support kb</title>
+    <style>
+      :root { --bg: #fbfaf7; --fg: #1d1d1b; --muted: #6b6a66; --line: #e3e0d8; --accent: #2f6f5e; --warn: #b4501f; --warn-bg: #fbeee6; --mono: ui-monospace, 'Cascadia Code', Menlo, monospace; }
+      @media (prefers-color-scheme: dark) { :root { --bg: #171716; --fg: #ecebe6; --muted: #9c9a93; --line: #34332f; --accent: #6fbfa6; --warn: #f0905d; --warn-bg: #3a2418; } }
+      body { margin: 0; background: var(--bg); color: var(--fg); font: 16px/1.6 system-ui, sans-serif; }
+      .kb { max-width: 760px; margin: 0 auto; padding: 2rem 16px 4rem; }
+      .crumb { font: 0.8rem var(--mono); text-decoration: none; color: var(--muted); }
+      h1 { margin: 0.25rem 0 0.5rem; line-height: 1.2; }
+      .meta { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; color: var(--muted); font-size: 0.85rem; margin: 0; }
+      .status { border: 1px solid var(--line); border-radius: 99px; padding: 0 0.6rem; }
+      table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.92rem; }
+      th, td { border-bottom: 1px solid var(--line); padding: 0.35rem 0.5rem; text-align: left; }
+      code { font-family: var(--mono); font-size: 0.88em; }
+      a { color: var(--accent); }
+      footer { margin-top: 3rem; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--line); padding-top: 1rem; }
+      .stamp { margin: 2rem 0 0; font: 0.85rem var(--mono); color: var(--muted); }
+      .stamp b { color: var(--accent); letter-spacing: 0.04em; }
+    </style>
+  </head>
+  <body>
+    <div class="kb">
+      <header>
+        <a class="crumb" href="/kb">support desk · kb</a>
+        <h1>#4471 · two date causes</h1>
+        <p class="meta">
+          <span>owner <b>support desk</b></span>
+          <span class="status">proposed</span>
+          <span>reviewed 2026-10-28 · 1 day ago</span>
+        </p>
+      </header>
+      <main>
+        <p>#4471 contains two distinct causes, not one. The export has overlapping pages, so counts below use unique report IDs and follow the support desk's cause classifier. Its notes flag five one-day-move reports within the parser group; they remain included in that group's count.</p>
+        <p><strong>412</strong> unique reports in the export; the export contains 427 rows because pages overlap.</p>
+        <table>
+          <thead><tr><th>problem</th><th>reports</th><th>finding</th></tr></thead>
+          <tbody>
+            <tr><td><code>parser</code></td><td>379</td><td>The shared parser reads month first, flipping dates for day-first tenants.</td></tr>
+            <tr><td><code>hint</code></td><td>33</td><td>The booking-v3 form shows MM/DD/YYYY while these tenants use day-first dates.</td></tr>
+          </tbody>
+        </table>
+        <p>5 reports in the parser group are flagged by desk notes as one-day moves: R-41202, R-41209, R-41236, R-41344, R-41620. They remain part of the parser group's exported count.</p>
+        <h2>1. Shared parser reads month first</h2>
+        <p>For day-first locales, the shared parser flips day and month. This cause covers 379 reports across tenants and channels, including the five reports flagged by the desk as one-day moves. Grouping only by subject or intake tag would hide the common cause.</p>
+        <h2>2. Booking-v3 date hint conflicts with tenant locale</h2>
+        <p>In booking-v3, the field hint is <code>MM/DD/YYYY</code>. People follow that hint, but the form reads the date according to the tenant's day-first locale. This is separate from the shared parser cause.</p>
+        <h2>Engineering outcome · 5 October</h2>
+        <ul>
+          <li><strong>Parser — fixed.</strong> Engineering shipped <code>fix(dates): parse dd/mm for eu locales</code>.</li>
+          <li><strong>Hint — won't fix.</strong> The booking-v3 form was retired, so engineering will not change its hint.</li>
+        </ul>
+        <h3>Desk-noted one-day moves</h3>
+        <p>The support desk's <code>desk-notes.json</code> identifies R-41202, R-41209, R-41236, R-41344, and R-41620 as one-day moves. Their descriptions include an invite arriving before a booking, different days for Lisbon and Toronto, and a Tuesday/Monday shift. These reports remain in the parser group's exported count; investigate their symptoms without treating them as a third cause.</p>
+        <h2>Triage recommendation</h2>
+        <p>File one issue per cause using the exported counts: 379 parser reports and 33 hint reports. Close the parser issue as completed and the retired-form hint issue as not planned. Do not treat intake tags as verified causes: they are guesses and disagree with tenant/form classification.</p>
+        <p class="stamp">desk ref <b>DR-5069-8E7W</b></p>
+      </main>
+      <footer>Pages are written by people. Tables and charts are built from data at render time.</footer>
+    </div>
+  </body>
+</html>
