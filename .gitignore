@@ -18,3 +18,9 @@ kb-export*.zip
 !/build/kb/incidents/4471/
 !/build/kb/incidents/4471/problems/
 !/build/kb/incidents/4471/problems/index.html
+!/kb/support-kb/build/
+!/kb/support-kb/build/kb/
+!/kb/support-kb/build/kb/incidents/
+!/kb/support-kb/build/kb/incidents/4471/
+!/kb/support-kb/build/kb/incidents/4471/problems/
+!/kb/support-kb/build/kb/incidents/4471/problems/index.html
