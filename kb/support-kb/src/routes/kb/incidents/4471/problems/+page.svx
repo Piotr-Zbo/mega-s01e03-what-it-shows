@@ -27,8 +27,12 @@ Grouping only by subject or intake tag would hide the common cause.
 ## 2. Booking-v3 date hint conflicts with tenant locale
 
 In booking-v3, the field hint is `MM/DD/YYYY`. People follow that hint, but the form reads the
-date according to the tenant's day-first locale. These reports need a separate fix from the
-shared parser: changing the parser does not correct what the form tells people to enter.
+date according to the tenant's day-first locale. This is separate from the shared parser cause.
+
+## Engineering outcome · 5 October
+
+- **Parser — fixed.** Engineering shipped `fix(dates): parse dd/mm for eu locales`.
+- **Hint — won't fix.** The booking-v3 form was retired, so engineering will not change its hint.
 
 ### Desk-noted one-day moves
 
@@ -39,8 +43,8 @@ exported count; investigate their symptoms without treating them as a third caus
 
 ## Triage recommendation
 
-File one issue per cause using the exported counts: 379 parser reports and 33 hint reports. Do not
-treat intake tags as verified causes: they are guesses and disagree with tenant/form
-classification.
+File one issue per cause using the exported counts: 379 parser reports and 33 hint reports. Close
+the parser issue as completed and the retired-form hint issue as not planned. Do not treat intake
+tags as verified causes: they are guesses and disagree with tenant/form classification.
 
 <RenderStamp {signature} />

@@ -11,3 +11,6 @@ The kb's cause classifier identifies booking-v3 form submissions for day-first t
 
 ## Requested action
 Correct the form hint or its input parsing so displayed date order matches the tenant locale. Track this independently from the shared parser issue.
+
+## Resolution
+Engineering marked this won't fix because the booking-v3 form was retired. Close this issue as not planned.

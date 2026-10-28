@@ -11,3 +11,6 @@ The kb export classifies reports using tenant locale and booking form. The parse
 
 ## Requested action
 Track and fix the shared parser behavior for day-first tenant dates. Keep the booking-v3 form-hint cause in a separate issue; investigate the five flagged one-day-move reports as a subset of this group.
+
+## Resolution
+Engineering marked the parser fixed and shipped `fix(dates): parse dd/mm for eu locales`. Close this issue as completed.
