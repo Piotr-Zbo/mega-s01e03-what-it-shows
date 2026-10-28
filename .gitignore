@@ -1,0 +1,12 @@
+# Local challenge activity log; do not publish tokens or session details.
+challenge-log.md
+challenge-proof.json
+
+# Downloaded archive is redundant with the extracted kb export.
+kb-export.zip
+
+# Generated dependencies and build output.
+**/node_modules/
+**/.svelte-kit/
+**/build/
+**/dist/

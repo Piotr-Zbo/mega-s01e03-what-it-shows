@@ -1,0 +1,46 @@
+---
+layout: runbook
+title: '#4471 · three date problems'
+owner: support desk
+status: proposed
+reviewed: 2026-10-28
+signature: v1.eyJzdWIiOiIxOTkxIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjAzODgsImV4cCI6MTc5MzMwNjc4OH0.Zu15NFXvoHahkFX6cj83p37BBbqxof905fOWZzqKhIA
+---
+
+<script>
+  import Incident4471Breakdown from '#lib/kb/Incident4471Breakdown.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+</script>
+
+#4471 contains three distinct date problems, not one. The export has overlapping pages, so
+counts below use unique report IDs. The cause classifier follows the tenant locale and booking
+form; the five one-day-move reports are separated using the support desk's own notes.
+
+<Incident4471Breakdown />
+
+## 1. Shared parser reads month first
+
+For day-first locales, the shared parser flips day and month. This is the main issue in #4471
+after the separately identified one-day moves are removed. It affects reports across tenants
+and channels, so grouping only by subject or intake tag would hide the common cause.
+
+## 2. Booking-v3 date hint conflicts with tenant locale
+
+In booking-v3, the field hint is `MM/DD/YYYY`. People follow that hint, but the form reads the
+date according to the tenant's day-first locale. These reports need a separate fix from the
+shared parser: changing the parser does not correct what the form tells people to enter.
+
+## 3. Five one-day moves need separate investigation
+
+The support desk's `desk-notes.json` identifies five reports as one-day moves. Their descriptions
+include an invite arriving before a booking, different days for Lisbon and Toronto, and a
+Tuesday/Monday shift. Keep them out of the month-flip ticket until timezone and timing behavior
+are understood.
+
+## Triage recommendation
+
+File one issue per problem. Keep the report counts from the component above, link the five
+one-day-move report IDs in their issue, and do not treat intake tags as verified causes: they
+are guesses and disagree with tenant/form classification.
+
+<RenderStamp {signature} />
