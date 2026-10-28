@@ -10,3 +10,11 @@ kb-export*.zip
 **/.svelte-kit/
 **/build/
 **/dist/
+
+# The Challenge requires this committed rendered page in the build tree.
+!/build/
+!/build/kb/
+!/build/kb/incidents/
+!/build/kb/incidents/4471/
+!/build/kb/incidents/4471/problems/
+!/build/kb/incidents/4471/problems/index.html
