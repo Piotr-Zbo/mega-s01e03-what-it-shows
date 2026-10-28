@@ -7,13 +7,11 @@
   const unique = uniqueById(reports as Report[]);
   const oneDayMoves = new Set(notes.oneDayMove);
   const causes: readonly Cause[] = ['parser', 'hint'];
-  const groups = [
-    ...causes.map((cause) => ({
-      cause,
-      count: unique.filter((r) => !oneDayMoves.has(r.id) && causeOf(r, tenantOf(r)) === cause).length,
-    })),
-    { cause: 'one-day moves', count: unique.filter((r) => oneDayMoves.has(r.id)).length },
-  ];
+  const groups = causes.map((cause) => ({
+    cause,
+    count: unique.filter((r) => causeOf(r, tenantOf(r)) === cause).length,
+  }));
+  const oneDayMoveCount = unique.filter((r) => oneDayMoves.has(r.id)).length;
   const flaggedIds = [...oneDayMoves].sort();
 </script>
 
@@ -28,18 +26,12 @@
       <tr>
         <td><code>{group.cause}</code></td>
         <td>{group.count}</td>
-        <td>
-          {#if group.cause === 'parser'}
-            The shared parser reads month first, flipping dates for day-first tenants.
-          {:else if group.cause === 'hint'}
-            The booking-v3 form shows MM/DD/YYYY while these tenants use day-first dates.
-          {:else}
-            Desk notes flag one-day moves; these reports describe timezone or timing symptoms, not a month flip.
-          {/if}
-        </td>
+        <td>{group.cause === 'parser'
+          ? 'The shared parser reads month first, flipping dates for day-first tenants.'
+          : 'The booking-v3 form shows MM/DD/YYYY while these tenants use day-first dates.'}</td>
       </tr>
     {/each}
   </tbody>
 </table>
 
-<p>Desk-noted one-day-move reports: {flaggedIds.join(', ')}.</p>
+<p>{oneDayMoveCount} reports in the parser group are flagged by desk notes as one-day moves: {flaggedIds.join(', ')}. They remain part of the parser group's exported count.</p>

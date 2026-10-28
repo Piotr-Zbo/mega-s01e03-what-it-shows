@@ -1,6 +1,6 @@
 ---
 layout: runbook
-title: '#4471 · three date problems'
+title: '#4471 · two date causes'
 owner: support desk
 status: proposed
 reviewed: 2026-10-28
@@ -12,17 +12,17 @@ signature: v1.eyJzdWIiOiIxOTkxIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYX
   import RenderStamp from '#lib/kb/RenderStamp.svelte';
 </script>
 
-#4471 contains three distinct date problems, not one. The export has overlapping pages, so
-counts below use unique report IDs. The cause classifier follows the tenant locale and booking
-form; the five one-day-move reports are separated using the support desk's own notes.
+#4471 contains two distinct causes, not one. The export has overlapping pages, so counts below
+use unique report IDs and follow the support desk's cause classifier. Its notes flag five
+one-day-move reports within the parser group; they remain included in that group's count.
 
 <Incident4471Breakdown />
 
 ## 1. Shared parser reads month first
 
-For day-first locales, the shared parser flips day and month. This is the main issue in #4471
-after the separately identified one-day moves are removed. It affects reports across tenants
-and channels, so grouping only by subject or intake tag would hide the common cause.
+For day-first locales, the shared parser flips day and month. This cause covers 379 reports
+across tenants and channels, including the five reports flagged by the desk as one-day moves.
+Grouping only by subject or intake tag would hide the common cause.
 
 ## 2. Booking-v3 date hint conflicts with tenant locale
 
@@ -30,17 +30,17 @@ In booking-v3, the field hint is `MM/DD/YYYY`. People follow that hint, but the 
 date according to the tenant's day-first locale. These reports need a separate fix from the
 shared parser: changing the parser does not correct what the form tells people to enter.
 
-## 3. Five one-day moves need separate investigation
+### Desk-noted one-day moves
 
-The support desk's `desk-notes.json` identifies five reports as one-day moves. Their descriptions
-include an invite arriving before a booking, different days for Lisbon and Toronto, and a
-Tuesday/Monday shift. Keep them out of the month-flip ticket until timezone and timing behavior
-are understood.
+The support desk's `desk-notes.json` identifies R-41202, R-41209, R-41236, R-41344, and R-41620
+as one-day moves. Their descriptions include an invite arriving before a booking, different days
+for Lisbon and Toronto, and a Tuesday/Monday shift. These reports remain in the parser group's
+exported count; investigate their symptoms without treating them as a third cause.
 
 ## Triage recommendation
 
-File one issue per problem. Keep the report counts from the component above, link the five
-one-day-move report IDs in their issue, and do not treat intake tags as verified causes: they
-are guesses and disagree with tenant/form classification.
+File one issue per cause using the exported counts: 379 parser reports and 33 hint reports. Do not
+treat intake tags as verified causes: they are guesses and disagree with tenant/form
+classification.
 
 <RenderStamp {signature} />
